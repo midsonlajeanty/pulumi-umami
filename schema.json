@@ -1,0 +1,192 @@
+{
+  "name": "umami",
+  "displayName": "Umami",
+  "version": "0.0.1",
+  "description": "Manage Umami analytics resources.",
+  "keywords": [
+    "pulumi",
+    "umami",
+    "analytics"
+  ],
+  "homepage": "https://github.com/midsonlajeanty/pulumi-umami",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/midsonlajeanty/pulumi-umami",
+  "pluginDownloadURL": "github://api.github.com/midsonlajeanty/pulumi-umami",
+  "publisher": "Louis Midson Lajeanty",
+  "namespace": "midsonlajeanty",
+  "language": {
+    "go": {
+      "importBasePath": "github.com/midsonlajeanty/pulumi-umami/sdk/go/umami",
+      "respectSchemaVersion": true
+    },
+    "nodejs": {
+      "packageName": "@midsonlajeanty/pulumi-umami",
+      "respectSchemaVersion": true
+    }
+  },
+  "config": {
+    "variables": {
+      "apiKey": {
+        "type": "string",
+        "description": "Umami API key. Takes precedence over username and password.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_API_KEY"
+          ]
+        },
+        "secret": true
+      },
+      "password": {
+        "type": "string",
+        "description": "Password, used with username when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_PASSWORD"
+          ]
+        },
+        "secret": true
+      },
+      "url": {
+        "type": "string",
+        "description": "Base URL of the Umami server, for example https://analytics.example.com.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_URL"
+          ]
+        }
+      },
+      "username": {
+        "type": "string",
+        "description": "Username, used with password when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_USERNAME"
+          ]
+        }
+      }
+    }
+  },
+  "provider": {
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Umami API key. Takes precedence over username and password.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_API_KEY"
+          ]
+        },
+        "secret": true
+      },
+      "password": {
+        "type": "string",
+        "description": "Password, used with username when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_PASSWORD"
+          ]
+        },
+        "secret": true
+      },
+      "url": {
+        "type": "string",
+        "description": "Base URL of the Umami server, for example https://analytics.example.com.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_URL"
+          ]
+        }
+      },
+      "username": {
+        "type": "string",
+        "description": "Username, used with password when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_USERNAME"
+          ]
+        }
+      }
+    },
+    "inputProperties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Umami API key. Takes precedence over username and password.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_API_KEY"
+          ]
+        },
+        "secret": true
+      },
+      "password": {
+        "type": "string",
+        "description": "Password, used with username when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_PASSWORD"
+          ]
+        },
+        "secret": true
+      },
+      "url": {
+        "type": "string",
+        "description": "Base URL of the Umami server, for example https://analytics.example.com.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_URL"
+          ]
+        }
+      },
+      "username": {
+        "type": "string",
+        "description": "Username, used with password when no API key is set.",
+        "defaultInfo": {
+          "environment": [
+            "UMAMI_USERNAME"
+          ]
+        }
+      }
+    }
+  },
+  "resources": {
+    "umami:index:Website": {
+      "description": "A website tracked by Umami. Its resource id is the website id used by the tracker.",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Domain of the website."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the website."
+        },
+        "teamId": {
+          "type": "string",
+          "description": "Team that owns the website. Changing it replaces the website."
+        }
+      },
+      "required": [
+        "name",
+        "domain"
+      ],
+      "inputProperties": {
+        "domain": {
+          "type": "string",
+          "description": "Domain of the website."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the website."
+        },
+        "teamId": {
+          "type": "string",
+          "description": "Team that owns the website. Changing it replaces the website."
+        }
+      },
+      "requiredInputs": [
+        "name",
+        "domain"
+      ]
+    }
+  }
+}
