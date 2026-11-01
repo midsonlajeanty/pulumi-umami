@@ -1,0 +1,6 @@
+name: umami-e2e
+runtime: bun
+plugins:
+  providers:
+    - name: umami
+      path: ../../bin
