@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+    secrets:
+      NPM_TOKEN:
+        required: false
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish, for example v0.1.0
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build the plugin and publish the SDK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      TAG: ${{ inputs.tag }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          persist-credentials: false
+
+      - name: Check that the manifest version matches the tag
+        run: |
+          version="$(sed -n 's/.*"\.": *"\([^"]*\)".*/\1/p' release/.manifest.json)"
+          test "v${version}" = "${TAG}"
+          echo "VERSION=${version}" >> "${GITHUB_ENV}"
+
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Build the plugin archives
+        run: make dist
+
+      - name: Upload the plugin archives to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${TAG}" dist/*.tar.gz dist/*-checksums.txt --clobber
+
+      - name: Install the Pulumi CLI
+        env:
+          PULUMI_VERSION: 3.273.0
+        run: |
+          curl -fsSL https://get.pulumi.com | sh -s -- --version "${PULUMI_VERSION}"
+          echo "${HOME}/.pulumi/bin" >> "${GITHUB_PATH}"
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Build the Node.js SDK
+        run: make sdk
+
+      - name: Publish the Node.js SDK to npm
+        if: env.NPM_TOKEN != ''
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd sdk/nodejs/bin
+          if npm view "@midsonlajeanty/pulumi-umami@${VERSION}" version >/dev/null 2>&1; then
+            echo "version ${VERSION} is already on npm"
+            exit 0
+          fi
+          npm publish --access public --provenance
