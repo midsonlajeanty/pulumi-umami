@@ -1,0 +1,19 @@
+pre-commit:
+  commands:
+    gofmt:
+      glob: "*.go"
+      exclude: "sdk/"
+      run: test -z "$(gofmt -l {staged_files})"
+    vet:
+      glob: "*.go"
+      run: go vet ./...
+
+pre-push:
+  commands:
+    test:
+      run: go test ./...
+
+commit-msg:
+  commands:
+    conventional:
+      run: grep -qE '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9/_.-]+\))?!?: .+' {1}
