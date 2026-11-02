@@ -40,7 +40,7 @@ jobs:
           OSV_SCANNER_VERSION: 2.7.0
           SEMGREP_VERSION: 1.183.0
           ZIZMOR_VERSION: 1.31.1
-          GOVULNCHECK_VERSION: 1.1.4
+          GOVULNCHECK_VERSION: 1.9.0
         run: |
           curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
             | tar -xz -C /usr/local/bin gitleaks
