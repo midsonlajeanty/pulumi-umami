@@ -73,7 +73,7 @@ jobs:
         env:
           NPM_VERSION: 12.2.1
         run: |
-          npm install -g "npm@${NPM_VERSION}"
+          npm install -g "npm@${NPM_VERSION}" # zizmor: ignore[adhoc-packages]
           cd sdk/nodejs/bin
           if npm view "@midsonlajeanty/pulumi-umami@${VERSION}" version >/dev/null 2>&1; then
             echo "version ${VERSION} is already on npm"
