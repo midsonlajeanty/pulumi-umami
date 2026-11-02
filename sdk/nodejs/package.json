@@ -1,6 +1,6 @@
 {
     "name": "@midsonlajeanty/pulumi-umami",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "keywords": [
         "pulumi",
         "umami",
@@ -22,7 +22,7 @@
     "pulumi": {
         "resource": true,
         "name": "umami",
-        "version": "0.0.1",
+        "version": "0.1.0",
         "server": "github://api.github.com/midsonlajeanty/pulumi-umami"
     }
 }
