@@ -10,7 +10,7 @@ all: build
 
 build: bin/$(PROVIDER)
 
-bin/$(PROVIDER): $(GO_SOURCES) go.mod go.sum
+bin/$(PROVIDER): $(GO_SOURCES) go.mod go.sum release/.manifest.json
 	go build -ldflags "$(LDFLAGS)" -o $@ ./cmd/$(PROVIDER)
 
 lint:
