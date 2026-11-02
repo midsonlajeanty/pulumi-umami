@@ -22,14 +22,3 @@ updates:
       go:
         patterns:
           - "*"
-  - package-ecosystem: npm
-    directory: /sdk/nodejs
-    schedule:
-      interval: monthly
-    open-pull-requests-limit: 2
-    commit-message:
-      prefix: build
-    groups:
-      npm:
-        patterns:
-          - "*"
