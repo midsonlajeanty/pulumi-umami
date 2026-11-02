@@ -6,9 +6,6 @@ on:
       tag:
         type: string
         required: true
-    secrets:
-      NPM_TOKEN:
-        required: false
   workflow_dispatch:
     inputs:
       tag:
@@ -33,7 +30,6 @@ jobs:
       id-token: write
     env:
       TAG: ${{ inputs.tag }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -74,10 +70,10 @@ jobs:
         run: make sdk
 
       - name: Publish the Node.js SDK to npm
-        if: env.NPM_TOKEN != ''
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_VERSION: 12.2.1
         run: |
+          npm install -g "npm@${NPM_VERSION}"
           cd sdk/nodejs/bin
           if npm view "@midsonlajeanty/pulumi-umami@${VERSION}" version >/dev/null 2>&1; then
             echo "version ${VERSION} is already on npm"
